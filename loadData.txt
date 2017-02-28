@@ -1,0 +1,11 @@
+library(data.table); 
+library(dplyr); 
+
+TourneySeeds <- fread("data/TourneySeeds.csv")
+SampleSubmission <- fread("data/sample_submission.csv")
+Seasons <- fread("data/Seasons.csv")
+Teams <- fread("data/Teams.csv")
+TourneySlots <- fread("data/TourneySlots.csv")
+TourneyDetailedResults <- fread("data/TourneyDetailedResults.csv")
+TourneyCompactResults <- fread("data/TourneyCompactResults.csv")
+RegularSeasonDetailedResults <- fread("data/RegularSeasonDetailedResults.csv")
