@@ -18,8 +18,8 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 /**
- *
- * @author te21wals
+ * @author kr06pern - Koushik Pernati
+ * @author te21wals - Tom Walsh
  */
 public class MarchMadness {
     public static HashMap<Integer, String> teamIntMap = 
