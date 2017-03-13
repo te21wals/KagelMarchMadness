@@ -2,6 +2,9 @@ package marchmadness;
 
 /*
  * This class is used to represent a team
+ *
+ * @author kr06pern - Koushik Pernati
+ * @author te21wals - Tom Walsh
  */
 public class Team {
 	
