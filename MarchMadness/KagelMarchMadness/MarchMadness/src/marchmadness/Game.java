@@ -6,7 +6,7 @@
 package marchmadness;
 
 /**
- *
+ * @author kr06pern
  * @author te21wals
  */
 public class Game {
