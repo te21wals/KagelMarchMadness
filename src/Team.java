@@ -1,5 +1,3 @@
-package marchmadness;
-
 /*
  * This class is used to represent a team
  *
