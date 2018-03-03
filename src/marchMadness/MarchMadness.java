@@ -1,42 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package marchMadness;
+
+
+import marchMadness.objects.Team;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 /**
  * @author kr06pern - Koushik Pernati
  * @author te21wals - Tom Walsh
- *
- *
  */
+
+
+
 public class MarchMadness {
+    private static String teamPath = "input/Teams.csv";
+    private static String resultsPath = "input/2017RegularSeasonResults.csv";
+
     public static HashMap<Integer, String> teamIntMap = 
-            initTeamMap("Teams.csv");
+            initTeamMap(teamPath);
     public static HashMap<String, Integer> teamNameMap = 
-            nameTeamMap("Teams.csv");
+            nameTeamMap(teamPath);
     public static HashMap<Integer, Team> teamMap = initTeamObjMap();
      
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args){
-        printHashMaps();
-        simulateGames("Z:\\KagelMarchMadness\\MarchMadness\\temp.csv");
-        
-        
+        simulateGames(resultsPath);
+
             try (Scanner in = new Scanner(System.in)) {
                 System.out.println("PLEASE ENTER THE TWO TEAMS YOU WOULD LIKE TO "
                         + "SIMULATE!");
@@ -58,7 +51,7 @@ public class MarchMadness {
     static HashMap initTeamMap(String fileName){
         HashMap<Integer, String> hmap = new HashMap<>();
         try{
-            try (Scanner sc = new Scanner(new File(fileName))) {
+            try (Scanner sc = new Scanner(new File(fileName).getAbsolutePath())) {
                 sc.nextLine();
                 while(sc.hasNextLine()){
                     String [] data = sc.nextLine().split(",");
@@ -102,7 +95,7 @@ public class MarchMadness {
     
     static void simulateGames(String fileName){
         try {
-            Scanner in = new Scanner(new File(fileName));
+            Scanner in = new Scanner(new File(fileName).getAbsolutePath());
             String header = in.nextLine();
             System.out.println(header);
             while(in.hasNextLine()){
@@ -167,18 +160,5 @@ public class MarchMadness {
                 (winScoreTeam + loseScoreTeam);
         double loseTeamExpectedScore = loseScoreTeam / 
                 (winScoreTeam + loseScoreTeam);
-        
-        System.out.println(fTeam.toUpperCase() + " has a "+ winTeamExpectedScore 
-                + " probablility of winning");
-        System.out.println(sTeam.toUpperCase() + " has a "
-                + loseTeamExpectedScore + " probablility of winning");
-    }
-    
-    static void printHashMaps(){
-        System.out.println(teamIntMap.values().toString());
-        System.out.println("************************************************");
-        System.out.println(teamNameMap.values().toString());
-        System.out.println("************************************************");
-        System.out.println(teamMap.values().toString());
     }
 }

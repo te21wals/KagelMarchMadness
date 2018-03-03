@@ -1,3 +1,5 @@
+package marchMadness.objects;
+
 /*
  * This class is used to represent a team
  *
@@ -8,17 +10,17 @@ public class Team {
 	
 	//Instance variables
 	private String name;
-	private int number;
+	private int ID;
 	private int rating;
 	
 	/*
-	 * Constructor for Team class
+	 * Constructor for marchMadness.objects.Team class
 	 * @param name - The name of the team
-	 * @param number - The number of the team
+	 * @param ID - The ID of the team
 	 */
 	public Team(String name, int number){
 		this.name = name;
-		this.number = number;
+		this.ID = number;
 		this.rating = 1200;
 	}
 	
@@ -31,11 +33,11 @@ public class Team {
 	}
 	
 	/*
-	 * Gets the number of the team
-	 * @return the number of the team
+	 * Gets the ID of the team
+	 * @return the ID of the team
 	 */
-	public int getNumber(){
-		return this.number;
+	public int getID(){
+		return this.ID;
 	}
 	
 	/*
@@ -55,7 +57,7 @@ public class Team {
 	}
         @Override 
         public String toString(){
-            return("[ "+"Name:"+name+" Number:"+number+" ELOrating:"
+            return("[ "+"Name:"+name+" Number:"+ ID +" ELOrating:"
                     +rating+" ]");
         }
 

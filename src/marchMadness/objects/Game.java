@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package marchMadness.objects;
 
 /**
  * @author kr06pern
@@ -16,17 +12,17 @@ public class Game {
         this.wTeam = wTeamIn;
         this.lTeam = lTeamIn;
     }
-    public Team getWTeam(){
+    public Team getWinningTeam(){
         return this.wTeam;
     }
-    public void setWTeam(Team wTeamIn){
+    public void setWinningTeam(Team wTeamIn){
         this.wTeam = wTeamIn;
     }
     
-    public Team getLTeam(){
+    public Team getLoosingTeam(){
         return this.lTeam;
     }
-    public void setLTeam(Team lTeamIn){
+    public void setLoosingTeam(Team lTeamIn){
         this.lTeam = lTeamIn;
     }
 }
