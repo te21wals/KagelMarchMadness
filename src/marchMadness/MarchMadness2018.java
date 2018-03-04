@@ -93,22 +93,24 @@ public class MarchMadness2018 {
     }
 
     public List<Team> getTopTeams (int n){
-        if(n<1 || n>364){
+        if(n<0 || n>365){
             throw new IllegalArgumentException("n: "+ n + "is invalid must be between [1-364]");
         }
-        List<Team> teams = new ArrayList<>();
-        simulationRepository.getTeams().entrySet().stream().forEach(team -> {
-            teams.add(team.getValue());
-        });
-        Collections.sort(teams, Comparator.comparingInt(Team::getEloRating));
-        return teams.stream().limit(n).collect(Collectors.toList());
+        List<Team> teams = new ArrayList<>(simulationRepository.getTeams().values());
+        teams = teams
+            .stream()
+            .sorted(Comparator.comparingInt(Team::getEloRating).reversed())
+            .limit(n)
+            .collect(Collectors.toList());
+
+        return teams;
     }
 
     public static void main (String[]args){
         MarchMadness2018 marchMadness2018 = new MarchMadness2018();
         marchMadness2018.simulateRegularSeason();
 
-        marchMadness2018.getTopTeams(25).forEach(team-> {
+        marchMadness2018.getTopTeams(4).forEach(team-> {
             System.out.println(team);
         });
     }
