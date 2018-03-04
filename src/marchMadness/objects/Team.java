@@ -44,7 +44,7 @@ public class Team {
 	 * Gets the rating of the team
 	 * @return the rating of the team
 	 */
-	public int getRating(){
+	public int getEloRating(){
 		return this.rating;
 	}
 	
@@ -52,7 +52,7 @@ public class Team {
 	 * Sets the rating of the team
 	 * @param rating - rating of the team to be set
 	 */
-	public void setRating(int rating){
+	public void setEloRating(int rating){
 		this.rating = rating;
 	}
         @Override 

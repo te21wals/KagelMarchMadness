@@ -5,7 +5,7 @@ package marchMadness.objects;
  * @author te21wals
  */
 public class Game {
-    private Team wTeam; 
+    private Team wTeam;
     private Team lTeam;
     
     public Game(Team wTeamIn, Team lTeamIn){
@@ -15,14 +15,8 @@ public class Game {
     public Team getWinningTeam(){
         return this.wTeam;
     }
-    public void setWinningTeam(Team wTeamIn){
-        this.wTeam = wTeamIn;
-    }
     
     public Team getLoosingTeam(){
         return this.lTeam;
-    }
-    public void setLoosingTeam(Team lTeamIn){
-        this.lTeam = lTeamIn;
     }
 }

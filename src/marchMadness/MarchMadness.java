@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 
 
-
+@Deprecated
 public class MarchMadness {
     private static String teamPath = "input/Teams.csv";
     private static String resultsPath = "input/2017RegularSeasonResults.csv";
@@ -114,8 +114,8 @@ public class MarchMadness {
     }
     
     static void gameRatingsResults(int winTeam, int loseTeam){
-        int winTeamElo = teamMap.get(winTeam).getRating();
-        int loseTeamElo = teamMap.get(loseTeam).getRating();
+        int winTeamElo = teamMap.get(winTeam).getEloRating();
+        int loseTeamElo = teamMap.get(loseTeam).getEloRating();
         
         double winScoreTeam = Math.pow(10.0, winTeamElo/400.0);
         double loseScoreTeam = Math.pow(10.0, loseTeamElo/400.0);
@@ -137,9 +137,9 @@ public class MarchMadness {
                 (loseTeamActual - loseTeamExpectedScore)));
         
         Team one = teamMap.get(winTeam);
-        one.setRating(winTeamRating);
+        one.setEloRating(winTeamRating);
         Team two = teamMap.get(loseTeam);
-        two.setRating(loseTeamRating);
+        two.setEloRating(loseTeamRating);
         
         teamMap.put(winTeam, one);
         teamMap.put(loseTeam, two);
@@ -150,8 +150,8 @@ public class MarchMadness {
         int winTeam = teamNameMap.get(fTeam);
         int loseTeam = teamNameMap.get(sTeam);
         
-        int winTeamElo = teamMap.get(winTeam).getRating();
-        int loseTeamElo = teamMap.get(loseTeam).getRating();
+        int winTeamElo = teamMap.get(winTeam).getEloRating();
+        int loseTeamElo = teamMap.get(loseTeam).getEloRating();
         
         double winScoreTeam = Math.pow(10.0, winTeamElo/400.0);
         double loseScoreTeam = Math.pow(10.0, loseTeamElo/400.0);

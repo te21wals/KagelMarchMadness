@@ -7,10 +7,9 @@ import java.util.NoSuchElementException;
 
 public class SimulationRepository {
     private static Map <Integer, Team> teams = new HashMap<>();
-    public static SimulationRepository INSTANCE = new SimulationRepository();
 
-    private SimulationRepository(){
-        // Singleton
+    public static Map<Integer, Team> getTeams() {
+        return teams;
     }
 
     public Team upsert (Team team){
@@ -25,7 +24,7 @@ public class SimulationRepository {
     public Team get (int ID){
         Team team = teams.get(ID);
         if(team == null){
-            throw new NoSuchElementException("team does not exist");
+            throw new NoSuchElementException("team "+team.getID()+" does not exist");
         }
         return team;
     }
