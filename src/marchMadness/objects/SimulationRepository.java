@@ -21,7 +21,7 @@ public class SimulationRepository {
         return team;
     }
 
-    public Team get (int ID){
+    public Team getTeam(int ID){
         Team team = teams.get(ID);
         if(team == null){
             throw new NoSuchElementException("team "+team.getID()+" does not exist");

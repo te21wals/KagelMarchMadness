@@ -6,15 +6,18 @@ import marchMadness.objects.Team;
 
 import java.io.File;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class MarchMadness2018 {
+    private static final Logger LOGGER = Logger.getLogger(MarchMadness2018.class.getName());
     private Queue<Game> games;
     private SimulationRepository simulationRepository = new SimulationRepository();
     private static String teamPath = "input/Teams.csv";
     private static String resultsPath = "input/2017RegularSeasonResults.csv";
 
     public MarchMadness2018 () {
+        LOGGER.warning("----------------------- new instance -----------------------");
         simulationRepository.upsert(readInTeamFile());
         games = readInResultsFile();
     }
@@ -22,11 +25,11 @@ public class MarchMadness2018 {
     public void simulateRegularSeason(){
         while(!games.isEmpty()){
             Game currentGame = games.remove();
-            simulateGame(currentGame);
+            simulateGame(currentGame, true);
         }
     }
 
-    public void simulateGame(Game game){
+    public int[] simulateGame(Game game, boolean updateScore){
         Team winningTeam = game.getWinningTeam();
         Team loosingTeam = game.getLoosingTeam();
 
@@ -42,11 +45,21 @@ public class MarchMadness2018 {
         //K is the K-factor into considering the new rating
         double K = 32.0;
 
-        winningTeam.setEloRating((int)(winningTeam.getEloRating() + Math.round(K * (winTeamActual - winTeamExpectedScore))));
-        loosingTeam.setEloRating((int)(winningTeam.getEloRating() + Math.round(K * (loseTeamActual - loseTeamExpectedScore))));
+        int winningTeamElo = (int)(winningTeam.getEloRating() + Math.round(K * (winTeamActual - winTeamExpectedScore)));
+        int loosingTeamElo = (int)(winningTeam.getEloRating() + Math.round(K * (loseTeamActual - loseTeamExpectedScore)));
 
-        simulationRepository.upsert(winningTeam);
-        simulationRepository.upsert(loosingTeam);
+        winningTeam.setEloRating(winningTeamElo);
+        loosingTeam.setEloRating(loosingTeamElo);
+
+        if(updateScore == true) {
+            simulationRepository.upsert(winningTeam);
+            simulationRepository.upsert(loosingTeam);
+        }
+
+        LOGGER.info("Winning Team: "+winningTeam.toString()+"\tLoosing Team: "+ loosingTeam.toString()
+                +" updated successfully");
+
+        return new int [] {winningTeam.getID(), loosingTeam.getID()};
     }
 
 
@@ -60,12 +73,12 @@ public class MarchMadness2018 {
                 String[] data = line.split("\t");
                 int winnerID = Integer.parseInt(data[0]);
                 int loserID = Integer.parseInt(data[1]);
-                Game game = new Game(simulationRepository.get(winnerID),simulationRepository.get(loserID));
+                Game game = new Game(simulationRepository.getTeam(winnerID),simulationRepository.getTeam(loserID));
                 games.add(game);
             }
         }
         catch (Exception e ){
-            System.err.println("Data in team game file could not be validated "+ games.toArray().length);
+            System.err.println("Data in game file could not be validated ");
         }
         finally {
             return games;
@@ -96,21 +109,32 @@ public class MarchMadness2018 {
         if(n<0 || n>365){
             throw new IllegalArgumentException("n: "+ n + "is invalid must be between [1-364]");
         }
-        List<Team> teams = new ArrayList<>(simulationRepository.getTeams().values());
-        teams = teams
+
+        return simulationRepository.getTeams().values()
             .stream()
             .sorted(Comparator.comparingInt(Team::getEloRating).reversed())
             .limit(n)
             .collect(Collectors.toList());
+    }
 
-        return teams;
+    public int getTeamRanking(int id){
+        Team team = simulationRepository.getTeam(id);
+        List<Team> teams = getTopTeams(364);
+        int index =0 ;
+        while(index < teams.size()){
+            if(team.equals(teams.get(index))){
+                return index;
+            }
+            index ++;
+        }
+        return -1;
     }
 
     public static void main (String[]args){
         MarchMadness2018 marchMadness2018 = new MarchMadness2018();
         marchMadness2018.simulateRegularSeason();
 
-        marchMadness2018.getTopTeams(4).forEach(team-> {
+        marchMadness2018.getTopTeams(10).forEach(team-> {
             System.out.println(team);
         });
     }
