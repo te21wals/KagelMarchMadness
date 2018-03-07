@@ -60,5 +60,4 @@ public class Team {
             return("[ "+"Name:"+name+" Number:"+ ID +" ELOrating:"
                     +rating+" ]");
         }
-
 }

@@ -1,10 +1,13 @@
 package marchMadness;
 
+import static java.util.Arrays.asList;
+
 import marchMadness.objects.Game;
 import marchMadness.objects.SimulationRepository;
 import marchMadness.objects.Team;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -62,6 +65,21 @@ public class MarchMadness2018 {
         return new int [] {winningTeam.getID(), loosingTeam.getID()};
     }
 
+    public void readInTurnamentFile(String fileName){
+        File turnamentFile = new File(fileName);
+        try(Scanner sc = new Scanner(turnamentFile)){
+            while(sc.hasNextLine()){
+                Game game = parseGameLine(sc.nextLine(),true);
+            }
+        }
+        catch(IOException e){
+            System.out.println("Data in team file could not be validated");
+        }
+    }
+
+    public Game parseTurnamentFileLine(String line){
+        return parseGameLine(line,true);
+    }
 
     public  Queue<Game> readInResultsFile(){
         Queue<Game> games = new LinkedList<>();
@@ -69,20 +87,29 @@ public class MarchMadness2018 {
         File resultsFile = new File(resultsPath).getAbsoluteFile();
         try (Scanner sc = new Scanner(resultsFile)) {
             while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                String[] data = line.split("\t");
-                int winnerID = Integer.parseInt(data[0]);
-                int loserID = Integer.parseInt(data[1]);
-                Game game = new Game(simulationRepository.getTeam(winnerID),simulationRepository.getTeam(loserID));
-                games.add(game);
+                games.add(parseGameLine(sc.nextLine()));
             }
         }
         catch (Exception e ){
-            System.err.println("Data in game file could not be validated ");
+            System.err.println("Data in game file could not be validated "+ e.getMessage());
         }
         finally {
             return games;
         }
+    }
+
+    private Game parseGameLine(String line){
+        String[] data = line.split("\t");
+        int winnerID = Integer.parseInt(data[0]);
+        int loserID = Integer.parseInt(data[1]);
+        return new Game(simulationRepository.getTeam(winnerID),simulationRepository.getTeam(loserID));
+    }
+
+    private Game parseGameLine(String line , boolean isResultKnown){
+        Game game = parseGameLine(line);
+        if (!isResultKnown)
+            game.simulate();
+        return game;
     }
 
     public  List<Team> readInTeamFile(){
@@ -97,7 +124,7 @@ public class MarchMadness2018 {
                 teams.add(team);
             }
         }
-        catch (Exception e ){
+        catch (IOException e ){
             System.err.println("Data in team file could not be validated \n"+e.getMessage());
         }
         finally {
@@ -105,29 +132,16 @@ public class MarchMadness2018 {
         }
     }
 
-    public List<Team> getTopTeams (int n){
-        if(n<0 || n>365){
-            throw new IllegalArgumentException("n: "+ n + "is invalid must be between [1-364]");
+    public List<Team> getTopTeams (int n) {
+        if (n < 0 || n > 365) {
+            throw new IllegalArgumentException("n: " + n + "is invalid must be between [1-364]");
         }
 
         return simulationRepository.getTeams().values()
-            .stream()
-            .sorted(Comparator.comparingInt(Team::getEloRating).reversed())
-            .limit(n)
-            .collect(Collectors.toList());
-    }
-
-    public int getTeamRanking(int id){
-        Team team = simulationRepository.getTeam(id);
-        List<Team> teams = getTopTeams(364);
-        int index =0 ;
-        while(index < teams.size()){
-            if(team.equals(teams.get(index))){
-                return index;
-            }
-            index ++;
-        }
-        return -1;
+                .stream()
+                .sorted(Comparator.comparingInt(Team::getEloRating).reversed())
+                .limit(n)
+                .collect(Collectors.toList());
     }
 
     public static void main (String[]args){

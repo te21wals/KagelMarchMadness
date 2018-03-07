@@ -1,5 +1,6 @@
 package marchMadness.objects;
 
+
 /**
  * @author kr06pern
  * @author te21wals
@@ -7,11 +8,17 @@ package marchMadness.objects;
 public class Game {
     private Team wTeam;
     private Team lTeam;
-    
-    public Game(Team wTeamIn, Team lTeamIn){
-        this.wTeam = wTeamIn;
-        this.lTeam = lTeamIn;
+
+    public Game(Team wTeam, Team lTeam) {
+        this.wTeam = wTeam;
+        this.lTeam = lTeam;
     }
+
+    public void simulate(){
+        wTeam = wTeam.getEloRating() >= lTeam.getEloRating() ? wTeam : lTeam;
+        lTeam = lTeam.getEloRating() <  wTeam.getEloRating() ? lTeam : wTeam;
+    }
+
     public Team getWinningTeam(){
         return this.wTeam;
     }
