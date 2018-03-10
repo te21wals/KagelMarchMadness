@@ -10,21 +10,26 @@ import java.util.stream.Collectors;
 
 public class MarchMadness2018 {
     private static final Logger LOGGER = Logger.getLogger(MarchMadness2018.class.getName());
+
     private Queue<Game> games;
+
     private SimulationRepository simulationRepository = new SimulationRepository();
-    private static String teamPath = "input/Teams.csv";
-    private static String resultsPath = "input/2017RegularSeasonResults.csv";
+
+    public final String teamPath = "input/Teams.csv";
+    public final String resultsPath = "input/2017RegularSeasonResults.csv";
+    public final String turnamentPath = "input/2017NCAATourneyResults.csv";
 
     public MarchMadness2018 () {
         LOGGER.warning("----------------------- new instance -----------------------");
+        games = new LinkedList<>();
         simulationRepository.upsert(readInTeamFile());
-        games = readInResultsFile();
     }
 
-    public void simulateRegularSeason(){
+
+    public void simulateGamesOnQueue(boolean updateScore){
         while(!games.isEmpty()){
-            Game currentGame = games.remove();
-            simulateGame(currentGame, true);
+                Game currentGame = games.remove();
+                simulateGame(currentGame, updateScore);
         }
     }
 
@@ -61,26 +66,9 @@ public class MarchMadness2018 {
         return new int [] {winningTeam.getID(), loosingTeam.getID()};
     }
 
-    public void readInTurnamentFile(String fileName){
-        File turnamentFile = new File(fileName);
-        try(Scanner sc = new Scanner(turnamentFile)){
-            while(sc.hasNextLine()){
-                Game game = parseGameLine(sc.nextLine(),true);
-            }
-        }
-        catch(IOException e){
-            System.out.println("Data in team file could not be validated");
-        }
-    }
 
-    public Game parseTurnamentFileLine(String line){
-        return parseGameLine(line,true);
-    }
-
-    public  Queue<Game> readInResultsFile(){
-        Queue<Game> games = new LinkedList<>();
-
-        File resultsFile = new File(resultsPath).getAbsoluteFile();
+    public  void readInResultsFile(String file){
+        File resultsFile = new File(file).getAbsoluteFile();
         try (Scanner sc = new Scanner(resultsFile)) {
             while (sc.hasNextLine()) {
                 games.add(parseGameLine(sc.nextLine()));
@@ -89,22 +77,14 @@ public class MarchMadness2018 {
         catch (Exception e ){
             System.err.println("Data in game file could not be validated "+ e.getMessage());
         }
-        finally {
-            return games;
-        }
     }
 
     private Game parseGameLine(String line){
-        String[] data = line.split("\t");
+        String[] data = line.split(",");
         int winnerID = Integer.parseInt(data[0]);
         int loserID = Integer.parseInt(data[1]);
-        return new Game(simulationRepository.getTeam(winnerID),simulationRepository.getTeam(loserID));
-    }
-
-    private Game parseGameLine(String line , boolean isResultKnown){
-        Game game = parseGameLine(line);
-        if (!isResultKnown)
-            game.simulate();
+        Game game =  new Game(simulationRepository.get(winnerID),simulationRepository.get(loserID));
+        //System.out.println(game.toString());
         return game;
     }
 
@@ -133,7 +113,7 @@ public class MarchMadness2018 {
             throw new IllegalArgumentException("n: " + n + "is invalid must be between [1-364]");
         }
 
-        return simulationRepository.getTeams().values()
+        return simulationRepository.getTEAMS().values()
                 .stream()
                 .sorted(Comparator.comparingInt(Team::getEloRating).reversed())
                 .limit(n)
@@ -142,10 +122,13 @@ public class MarchMadness2018 {
 
     public static void main (String[]args){
         MarchMadness2018 marchMadness2018 = new MarchMadness2018();
-        marchMadness2018.simulateRegularSeason();
+        marchMadness2018.readInResultsFile(marchMadness2018.resultsPath);
+        marchMadness2018.simulateGamesOnQueue(true);
 
         marchMadness2018.getTopTeams(10).forEach(team-> {
-            System.out.println(team);
+            //System.out.println(team);
         });
+
+        marchMadness2018.readInResultsFile(marchMadness2018.turnamentPath);
     }
 }

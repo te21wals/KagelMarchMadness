@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class SimulationRepository {
-    private static Map <Integer, Team> teams = new HashMap<>();
+    private static Map <Integer, Team> TEAMS = new HashMap<>();
 
-    public static Map<Integer, Team> getTeams() {
-        return teams;
+    public static Map<Integer, Team> getTEAMS() {
+        return TEAMS;
     }
 
     public Team upsert (Team team){
@@ -17,12 +17,12 @@ public class SimulationRepository {
             throw new IllegalArgumentException("team can not be null");
         }
         // add or update if the team exists
-        teams.put(team.getID(),team);
+        TEAMS.put(team.getID(),team);
         return team;
     }
 
-    public Team getTeam(int ID){
-        Team team = teams.get(ID);
+    public Team get(int ID){
+        Team team = TEAMS.get(ID);
         if(team == null){
             throw new NoSuchElementException("team "+team.getID()+" does not exist");
         }

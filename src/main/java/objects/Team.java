@@ -52,12 +52,16 @@ public class Team {
 	 * Sets the rating of the team
 	 * @param rating - rating of the team to be set
 	 */
-	public void setEloRating(int rating){
+	public void setEloRating(int rating) {
 		this.rating = rating;
 	}
-        @Override 
-        public String toString(){
-            return("[ "+"Name:"+name+" Number:"+ ID +" ELOrating:"
-                    +rating+" ]");
-        }
+
+	@Override
+	public String toString() {
+		return "Team{" +
+				"name='" + name + '\'' +
+				", ID=" + ID +
+				", rating=" + rating +
+				'}';
+	}
 }

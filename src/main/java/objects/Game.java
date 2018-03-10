@@ -6,24 +6,32 @@ package objects;
  * @author te21wals
  */
 public class Game {
-    private Team wTeam;
+    private Team winner;
     private Team lTeam;
 
     public Game(Team wTeam, Team lTeam) {
-        this.wTeam = wTeam;
+        this.winner = wTeam;
         this.lTeam = lTeam;
     }
 
     public void simulate(){
-        wTeam = wTeam.getEloRating() >= lTeam.getEloRating() ? wTeam : lTeam;
-        lTeam = lTeam.getEloRating() <  wTeam.getEloRating() ? lTeam : wTeam;
+        winner = winner.getEloRating() >= lTeam.getEloRating() ? winner : lTeam;
+        lTeam = lTeam.getEloRating() <  winner.getEloRating() ? lTeam : winner;
     }
 
     public Team getWinningTeam(){
-        return this.wTeam;
+        return this.winner;
     }
     
     public Team getLoosingTeam(){
         return this.lTeam;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "winner=" + winner +
+                ", lTeam=" + lTeam +
+                '}';
     }
 }
