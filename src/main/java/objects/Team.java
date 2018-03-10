@@ -1,5 +1,7 @@
 package objects;
 
+import java.util.Objects;
+
 /*
  * This class is used to represent a team
  *
@@ -59,9 +61,24 @@ public class Team {
 	@Override
 	public String toString() {
 		return "Team{" +
-				"name='" + name + '\'' +
+				"name=" + name +
 				", ID=" + ID +
 				", rating=" + rating +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Team team = (Team) o;
+		return ID == team.ID &&
+				Objects.equals(name, team.name);
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(name, ID, rating);
 	}
 }

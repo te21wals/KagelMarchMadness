@@ -1,4 +1,5 @@
 import objects.Game;
+import objects.SimulationResult;
 import objects.SimulationRepository;
 import objects.Team;
 
@@ -26,11 +27,33 @@ public class MarchMadness2018 {
     }
 
 
-    public void simulateGamesOnQueue(boolean updateScore){
+    public SimulationResult simulateGamesOnQueue(boolean updateScore){
+        SimulationResult simulationResult = new SimulationResult();
+
         while(!games.isEmpty()){
-                Game currentGame = games.remove();
-                simulateGame(currentGame, updateScore);
+                Game result = games.remove();
+                Game eloPrediction = getPrediction(result);
+                if(result.equals(eloPrediction)){
+                    simulationResult.setCorrect(simulationResult.getCorrect()+1);
+                    simulationResult.addSuccess(eloPrediction);
+
+                }
+                else{
+                    simulationResult.setIncorrect(simulationResult.getIncorrect()+1);
+                    simulationResult.addFailure(eloPrediction);
+                }
+                simulateGame(result, updateScore);
         }
+        return simulationResult;
+    }
+
+    public Game getPrediction(Game game){
+        Team higherElo = game.getWinningTeam().getEloRating() >= game.getLoosingTeam().getEloRating()
+                ?game.getWinningTeam() : game.getLoosingTeam();
+        Team lowerElo = game.getLoosingTeam().getEloRating() <= game.getWinningTeam().getEloRating()
+                ?game.getLoosingTeam() : game.getWinningTeam();
+
+        return new Game(higherElo,lowerElo);
     }
 
     public int[] simulateGame(Game game, boolean updateScore){
@@ -52,16 +75,12 @@ public class MarchMadness2018 {
         int winningTeamElo = (int)(winningTeam.getEloRating() + Math.round(K * (winTeamActual - winTeamExpectedScore)));
         int loosingTeamElo = (int)(winningTeam.getEloRating() + Math.round(K * (loseTeamActual - loseTeamExpectedScore)));
 
-        winningTeam.setEloRating(winningTeamElo);
-        loosingTeam.setEloRating(loosingTeamElo);
-
         if(updateScore == true) {
+            winningTeam.setEloRating(winningTeamElo);
+            loosingTeam.setEloRating(loosingTeamElo);
             simulationRepository.upsert(winningTeam);
             simulationRepository.upsert(loosingTeam);
         }
-
-        LOGGER.info("Winning Team: "+winningTeam.toString()+"\tLoosing Team: "+ loosingTeam.toString()
-                +" updated successfully");
 
         return new int [] {winningTeam.getID(), loosingTeam.getID()};
     }
@@ -122,8 +141,12 @@ public class MarchMadness2018 {
 
     public static void main (String[]args){
         MarchMadness2018 marchMadness2018 = new MarchMadness2018();
+
         marchMadness2018.readInResultsFile(marchMadness2018.resultsPath);
         marchMadness2018.simulateGamesOnQueue(true);
+
         marchMadness2018.readInResultsFile(marchMadness2018.turnamentPath);
+        SimulationResult simulationResult = marchMadness2018.simulateGamesOnQueue(false);
+        System.out.println(simulationResult.toString());
     }
 }

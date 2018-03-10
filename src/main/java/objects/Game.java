@@ -1,22 +1,19 @@
 package objects;
 
 
+import java.util.Objects;
+
 /**
  * @author kr06pern
  * @author te21wals
  */
 public class Game {
     private Team winner;
-    private Team lTeam;
+    private Team looser;
 
     public Game(Team wTeam, Team lTeam) {
         this.winner = wTeam;
-        this.lTeam = lTeam;
-    }
-
-    public void simulate(){
-        winner = winner.getEloRating() >= lTeam.getEloRating() ? winner : lTeam;
-        lTeam = lTeam.getEloRating() <  winner.getEloRating() ? lTeam : winner;
+        this.looser = lTeam;
     }
 
     public Team getWinningTeam(){
@@ -24,14 +21,29 @@ public class Game {
     }
     
     public Team getLoosingTeam(){
-        return this.lTeam;
+        return this.looser;
     }
 
     @Override
     public String toString() {
-        return "Game{" +
-                "winner=" + winner +
-                ", lTeam=" + lTeam +
+        return "Game{" +"\n" +
+                "winner=" + winner +",\n" +
+                "looser=" + looser +"\n" +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return Objects.equals(winner, game.winner) &&
+                Objects.equals(looser, game.looser);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(winner, looser);
     }
 }
