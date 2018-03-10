@@ -107,7 +107,7 @@ public class MarchMadness2018 {
             return teams;
         }
     }
-
+    // Not used but leaving in for debugging purposes
     public List<Team> getTopTeams (int n) {
         if (n < 0 || n > 365) {
             throw new IllegalArgumentException("n: " + n + "is invalid must be between [1-364]");
@@ -124,11 +124,6 @@ public class MarchMadness2018 {
         MarchMadness2018 marchMadness2018 = new MarchMadness2018();
         marchMadness2018.readInResultsFile(marchMadness2018.resultsPath);
         marchMadness2018.simulateGamesOnQueue(true);
-
-        marchMadness2018.getTopTeams(10).forEach(team-> {
-            //System.out.println(team);
-        });
-
         marchMadness2018.readInResultsFile(marchMadness2018.turnamentPath);
     }
 }
