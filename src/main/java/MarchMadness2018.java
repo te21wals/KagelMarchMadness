@@ -1,10 +1,6 @@
-package marchMadness;
-
-import static java.util.Arrays.asList;
-
-import marchMadness.objects.Game;
-import marchMadness.objects.SimulationRepository;
-import marchMadness.objects.Team;
+import objects.Game;
+import objects.SimulationRepository;
+import objects.Team;
 
 import java.io.File;
 import java.io.IOException;

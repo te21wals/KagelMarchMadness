@@ -1,4 +1,4 @@
-package marchMadness.objects;
+package objects;
 
 /*
  * This class is used to represent a team

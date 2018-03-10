@@ -1,4 +1,4 @@
-package marchMadness.objects;
+package objects;
 
 import java.util.HashMap;
 import java.util.List;
