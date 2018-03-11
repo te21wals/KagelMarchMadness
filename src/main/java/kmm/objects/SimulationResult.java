@@ -36,11 +36,19 @@ public class SimulationResult {
     public List<Game> getSuccesses() {
         return successes;
     }
-    
+
+    public void addSuccesses(List<Game> successes) {
+        this.successes.addAll(successes);
+    }
+
     public List<Game> getFailures() {
         return failures;
     }
-    
+
+    public void setFailures(List<Game> failures) {
+        this.failures.addAll(failures);
+    }
+
     public void addSuccess(Game game){
         successes.add(game);
     }

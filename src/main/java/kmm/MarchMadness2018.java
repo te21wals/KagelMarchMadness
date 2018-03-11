@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class MarchMadness2018 {
     private static final Logger LOGGER = Logger.getLogger(MarchMadness2018.class.getName());
 
+
     private Queue<Game> games;
 
     private SimulationRepository simulationRepository = new SimulationRepository();
@@ -21,31 +22,42 @@ public class MarchMadness2018 {
     public final String teamPath = "input/Teams.csv";
     public final String resultsPath = "input/2017RegularSeasonResults.csv";
     public final String turnamentPath = "input/2017NCAATourneyResults.csv";
+    public final Queue<Game> regularSeason2017Results;
 
     public MarchMadness2018 () {
         LOGGER.warning("----------------------- new instance -----------------------");
         games = new LinkedList<>();
         simulationRepository.upsert(readInTeamFile());
+        this.regularSeason2017Results = readInResultsFile(resultsPath);
+    }
+
+    public SimulationResult simulateGamesOnQueue(boolean updateScore, int n){
+        return simulateGamesOnQueue(updateScore,n,regularSeason2017Results.stream().collect(Collectors.toList()));
     }
 
 
-    public SimulationResult simulateGamesOnQueue(boolean updateScore){
+    public SimulationResult simulateGamesOnQueue(boolean updateScore, int n, List<Game> gamesList ){
+        if(n<=0) throw new IllegalArgumentException("n must be >0");
         SimulationResult simulationResult = new SimulationResult();
-
-        while(!games.isEmpty()){
+        do {
+            games.addAll(gamesList);
+            while (!games.isEmpty()) {
                 Game result = games.remove();
                 Game eloPrediction = getPrediction(result);
-                if(result.equals(eloPrediction)){
-                    simulationResult.setCorrect(simulationResult.getCorrect()+1);
+                if (result.equals(eloPrediction)) {
+                    simulationResult.setCorrect(simulationResult.getCorrect() + 1);
                     simulationResult.addSuccess(eloPrediction);
 
-                }
-                else{
-                    simulationResult.setIncorrect(simulationResult.getIncorrect()+1);
+                } else {
+                    simulationResult.setIncorrect(simulationResult.getIncorrect() + 1);
                     simulationResult.addFailure(eloPrediction);
                 }
                 simulateGame(result, updateScore);
+            }
+            n--;
         }
+        while(n>0);
+
         return simulationResult;
     }
 
@@ -71,11 +83,11 @@ public class MarchMadness2018 {
         double winTeamActual = 1.0;
         double loseTeamActual = 0.0;
 
-        //K is the K-factor into considering the new rating
-        double K = 32.0;
+        //K is the K-factor into considering the new rating was 32 changing to 20
+        double K = 50.0;
 
-        int winningTeamElo = (int)(winningTeam.getEloRating() + Math.round(K * (winTeamActual - winTeamExpectedScore)));
-        int loosingTeamElo = (int)(winningTeam.getEloRating() + Math.round(K * (loseTeamActual - loseTeamExpectedScore)));
+        long winningTeamElo = (long)(winningTeam.getEloRating() + Math.round(K * (winTeamActual - winTeamExpectedScore)));
+        long loosingTeamElo = (long)(winningTeam.getEloRating() + Math.round(K * (loseTeamActual - loseTeamExpectedScore)));
 
         if(updateScore == true) {
             winningTeam.setEloRating(winningTeamElo);
@@ -88,7 +100,8 @@ public class MarchMadness2018 {
     }
 
 
-    public  void readInResultsFile(String file){
+    public  Queue<Game> readInResultsFile(String file){
+        Queue<Game> games = new LinkedList<>();
         File resultsFile = new File(file).getAbsoluteFile();
         try (Scanner sc = new Scanner(resultsFile)) {
             while (sc.hasNextLine()) {
@@ -97,6 +110,9 @@ public class MarchMadness2018 {
         }
         catch (Exception e ){
             System.err.println("Data in game file could not be validated "+ e.getMessage());
+        }
+        finally {
+            return games;
         }
     }
 
@@ -135,7 +151,7 @@ public class MarchMadness2018 {
 
         return simulationRepository.getTEAMS().values()
                 .stream()
-                .sorted(Comparator.comparingInt(Team::getEloRating).reversed())
+                .sorted(Comparator.comparingLong(Team::getEloRating).reversed())
                 .limit(n)
                 .collect(Collectors.toList());
     }
@@ -144,10 +160,28 @@ public class MarchMadness2018 {
         MarchMadness2018 marchMadness2018 = new MarchMadness2018();
 
         marchMadness2018.readInResultsFile(marchMadness2018.resultsPath);
-        marchMadness2018.simulateGamesOnQueue(true);
+        int recordsParsed = 2000;//Integer.MAX_VALUE/16;
+        Date date = new Date();
+        LOGGER.info("Start: " + date.toString()+"\t Simulations: "+ recordsParsed);
 
-        marchMadness2018.readInResultsFile(marchMadness2018.turnamentPath);
-        SimulationResult simulationResult = marchMadness2018.simulateGamesOnQueue(false);
-        System.out.println(simulationResult.toShortString());
+        int num = 1;
+        //int num = recordsParsed/(500 % recordsParsed);
+        for(int i =0;i<num; i++){
+            Date now = new Date();
+            marchMadness2018.simulateGamesOnQueue(true,1);
+            LOGGER.info("\tsimulation: " + i + "/" + num +" time elapsed: "+ ((date.getTime()-now.getTime())/ 1000) +"sec");
+        }
+        marchMadness2018.getTopTeams(364).forEach(team -> {
+            System.out.println(team.toShortString());
+        });
+
+        SimulationResult simulationResult = marchMadness2018.simulateGamesOnQueue(false,1,
+                marchMadness2018.readInResultsFile(marchMadness2018.turnamentPath)
+                        .stream().collect(Collectors.toList()));
+        LOGGER.info(simulationResult.toShortString());
+
+        simulationResult = marchMadness2018.simulateGamesOnQueue(false,1,
+                marchMadness2018.regularSeason2017Results.stream().collect(Collectors.toList()));
+        LOGGER.info(simulationResult.toShortString());
     }
 }

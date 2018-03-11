@@ -13,7 +13,7 @@ public class Team {
 	//Instance variables
 	private String name;
 	private int ID;
-	private int rating;
+	private Long rating;
 	
 	/*
 	 * Constructor for marchMadness.Team class
@@ -23,7 +23,7 @@ public class Team {
 	public Team(String name, int number){
 		this.name = name;
 		this.ID = number;
-		this.rating = 1200;
+		this.rating = 1200l;
 	}
 	
 	/*
@@ -46,7 +46,7 @@ public class Team {
 	 * Gets the rating of the team
 	 * @return the rating of the team
 	 */
-	public int getEloRating(){
+	public Long getEloRating(){
 		return this.rating;
 	}
 	
@@ -54,7 +54,7 @@ public class Team {
 	 * Sets the rating of the team
 	 * @param rating - rating of the team to be set
 	 */
-	public void setEloRating(int rating) {
+	public void setEloRating(Long rating) {
 		this.rating = rating;
 	}
 
@@ -68,7 +68,7 @@ public class Team {
 	}
 
 	public String toShortString(){
-		return String.format("%4d", getID())+"\t"+String.format("%14s",getName())+"\t"+String.format("%4d",getEloRating());
+		return String.format("%4d", getID())+"\t"+String.format("%14s",getName())+"\t"+String.format("%20d",getEloRating());
 	}
 
 	@Override
