@@ -6,7 +6,7 @@ apply plugin: 'application'
 apply plugin: 'idea'
 
 sourceCompatibility = 1.8
-mainClassName= "MarchMadness2018"
+mainClassName= "kmm.MarchMadness2018"
 
 repositories {
     mavenCentral()
