@@ -103,7 +103,6 @@ public class MarchMadness2018 {
         int winnerID = Integer.parseInt(data[0]);
         int loserID = Integer.parseInt(data[1]);
         Game game =  new Game(simulationRepository.get(winnerID),simulationRepository.get(loserID));
-        //System.out.println(game.toString());
         return game;
     }
 
@@ -147,6 +146,6 @@ public class MarchMadness2018 {
 
         marchMadness2018.readInResultsFile(marchMadness2018.turnamentPath);
         SimulationResult simulationResult = marchMadness2018.simulateGamesOnQueue(false);
-        System.out.println(simulationResult.toString());
+        System.out.println(simulationResult.toShortString());
     }
 }

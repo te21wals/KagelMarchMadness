@@ -26,11 +26,12 @@ public class Game {
 
     @Override
     public String toString() {
-        return "Game{" +"\n" +
-                "winner=" + winner +",\n" +
-                "looser=" + looser +"\n" +
-                '}';
+        return "\n\t\tGame{" +"\n" +
+                "\t\t\twinner  " + winner.toShortString()+"\n" +
+                "\t\t\tlooser  " + looser.toShortString() +"\n" +
+                "\t\t}";
     }
+
 
     @Override
     public boolean equals(Object o) {

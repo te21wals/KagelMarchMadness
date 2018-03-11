@@ -61,10 +61,14 @@ public class Team {
 	@Override
 	public String toString() {
 		return "Team{" +
-				"name=" + name +
+				" name=" + name +
 				", ID=" + ID +
 				", rating=" + rating +
 				'}';
+	}
+
+	public String toShortString(){
+		return String.format("%4d", getID())+"\t"+String.format("%14s",getName())+"\t"+String.format("%4d",getEloRating());
 	}
 
 	@Override

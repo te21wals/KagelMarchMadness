@@ -51,11 +51,18 @@ public class SimulationResult {
 
     @Override
     public String toString() {
-        return "SimulationResult{" +"\n" +
-                "correct=" + correct + "\n" +
-                ", incorrect=" + incorrect + "\n" +
-                ", successes=" + successes + "\n" +
-                ", failures=" + failures + "\n" +
-                '}';
+        return "SimulationResult{" +
+                "\n\tcorrect=" + correct +
+                "\n\tincorrect=" + incorrect +
+                "\n\tsuccesses=" + successes +
+                "\n\tfailures=" + failures  +
+                "\n}";
+    }
+
+    public String toShortString() {
+        return "SimulationResult{" +
+                "\n\tcorrect=" + correct +
+                "\n\tincorrect=" + incorrect +
+                "\n}";
     }
 }
