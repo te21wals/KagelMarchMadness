@@ -1,4 +1,4 @@
-package objects;
+package kmm.objects;
 
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ public class Team {
 	private int rating;
 	
 	/*
-	 * Constructor for marchMadness.objects.Team class
+	 * Constructor for marchMadness.Team class
 	 * @param name - The name of the team
 	 * @param ID - The ID of the team
 	 */

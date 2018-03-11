@@ -1,4 +1,6 @@
-package objects;
+package kmm.objects.repos;
+
+import kmm.objects.Team;
 
 import java.util.HashMap;
 import java.util.List;

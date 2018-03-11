@@ -1,4 +1,4 @@
-package objects;
+package kmm.objects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,8 @@ public class SimulationResult {
     private int correct;
     private int incorrect;
 
-    List<Game> successes;// = new ArrayList<>();
-    List<Game> failures;// new ArrayList<>();
+    List<Game> successes;
+    List<Game> failures;
 
     public SimulationResult(){
         this.correct = 0;

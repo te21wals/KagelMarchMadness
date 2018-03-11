@@ -13,6 +13,8 @@ The project was implemented in java and uses gradle for build and execution. Reg
 * From the project directory run `gradle idea` to set up the `./idea` folder
 * From the project directory run `gradle build` to build the project and create `/root/`
 * From the project directory run `gradle clean` to clean the project and delete `/root/`
+* From the project directory run `gradle run` to run the `kmm.MarchMadness2018.java`
+
 
 ### Results 
 ``2017 - 99th Percentile on ESPN March Madness``

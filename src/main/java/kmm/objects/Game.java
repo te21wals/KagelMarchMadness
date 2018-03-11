@@ -1,4 +1,4 @@
-package objects;
+package kmm.objects;
 
 
 import java.util.Objects;

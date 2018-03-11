@@ -1,7 +1,9 @@
-import objects.Game;
-import objects.SimulationResult;
-import objects.SimulationRepository;
-import objects.Team;
+package kmm;
+
+import kmm.objects.Game;
+import kmm.objects.SimulationResult;
+import kmm.objects.repos.SimulationRepository;
+import kmm.objects.Team;
 
 import java.io.File;
 import java.io.IOException;
