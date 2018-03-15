@@ -20,8 +20,10 @@ public class MarchMadness2018 {
     private SimulationRepository simulationRepository = new SimulationRepository();
 
     public final String teamPath = "input/Teams.csv";
-    public final String resultsPath = "input/2017RegularSeasonResults.csv";
-    public final String turnamentPath = "input/2017NCAATourneyResults.csv";
+    //public final String resultsPath = "input/2017RegularSeasonResults.csv";
+    public final String resultsPath = "input/2018RegularSeasonData.csv";
+    //public final String turnamentPath = "input/2017NCAATourneyResults.csv";
+
     public final Queue<Game> regularSeason2017Results;
 
     public MarchMadness2018 () {
@@ -110,6 +112,7 @@ public class MarchMadness2018 {
         }
         catch (Exception e ){
             System.err.println("Data in game file could not be validated "+ e.getMessage());
+            e.printStackTrace();
         }
         finally {
             return games;
@@ -160,28 +163,25 @@ public class MarchMadness2018 {
         MarchMadness2018 marchMadness2018 = new MarchMadness2018();
 
         marchMadness2018.readInResultsFile(marchMadness2018.resultsPath);
-        int recordsParsed = 2000;//Integer.MAX_VALUE/16;
-        Date date = new Date();
-        LOGGER.info("Start: " + date.toString()+"\t Simulations: "+ recordsParsed);
 
-        int num = 1;
-        //int num = recordsParsed/(500 % recordsParsed);
-        for(int i =0;i<num; i++){
-            Date now = new Date();
-            marchMadness2018.simulateGamesOnQueue(true,1);
-            LOGGER.info("\tsimulation: " + i + "/" + num +" time elapsed: "+ ((date.getTime()-now.getTime())/ 1000) +"sec");
-        }
-        marchMadness2018.getTopTeams(364).forEach(team -> {
-            System.out.println(team.toShortString());
-        });
-
-        SimulationResult simulationResult = marchMadness2018.simulateGamesOnQueue(false,1,
-                marchMadness2018.readInResultsFile(marchMadness2018.turnamentPath)
+        SimulationResult simulationResult = marchMadness2018.simulateGamesOnQueue(true,1,
+                marchMadness2018.readInResultsFile(marchMadness2018.resultsPath)
                         .stream().collect(Collectors.toList()));
         LOGGER.info(simulationResult.toShortString());
 
-        simulationResult = marchMadness2018.simulateGamesOnQueue(false,1,
+        int n =364;
+        for(int i =1; i<= marchMadness2018.getTopTeams(n).size(); i++ ){
+            LOGGER.info("Rank: "+ i+"\t" +marchMadness2018.getTopTeams(n).get(i-1));
+        }
+
+
+        /*SimulationResult simulationResult = marchMadness2018.simulateGamesOnQueue(false,1,
+                marchMadness2018.readInResultsFile(marchMadness2018.turnamentPath)
+                        .stream().collect(Collectors.toList()));
+        LOGGER.info(simulationResult.toShortString());*/
+
+        /*simulationResult = marchMadness2018.simulateGamesOnQueue(false,1,
                 marchMadness2018.regularSeason2017Results.stream().collect(Collectors.toList()));
-        LOGGER.info(simulationResult.toShortString());
+        LOGGER.info(simulationResult.toShortString());*/
     }
 }
