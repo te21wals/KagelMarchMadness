@@ -13,8 +13,8 @@ The project was implemented in java and uses gradle for build and execution. Reg
 * Run `git clone https://github.com/te21wals/KagelMarchMadness.git` from the desired project parent directory to clone the repository
 * From the project directory run `./gradle idea` to set up the `/.idea` folder
 * From the project directory run `./gradle install` to build the gradle wrapper for KagelMarchMadness project `/root/`
-* From the project directory run `./gradle build` to build the project and create `/root/`
-* From the project directory run `./gradle clean` to clean the project and delete `/root/`
+* From the project directory run `./gradle build` to build the project and create `build/`
+* From the project directory run `./gradle clean` to clean the project and delete `build/`
 * From the project directory run `./gradle run` to run the `kmm.MarchMadness2018.java`
 
 
