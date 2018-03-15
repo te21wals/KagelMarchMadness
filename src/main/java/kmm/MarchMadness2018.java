@@ -2,8 +2,8 @@ package kmm;
 
 import kmm.objects.Game;
 import kmm.objects.SimulationResult;
-import kmm.objects.repos.SimulationRepository;
 import kmm.objects.Team;
+import kmm.objects.repos.SimulationRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,10 +84,10 @@ public class MarchMadness2018 {
         double loseTeamActual = 0.0;
 
         //K is the K-factor into considering the new rating was 32 changing to 20
-        double K = 50.0;
+        double K = 20.0;
 
-        long winningTeamElo = (long)(winningTeam.getEloRating() + Math.round(K * (winTeamActual - winTeamExpectedScore)));
-        long loosingTeamElo = (long)(winningTeam.getEloRating() + Math.round(K * (loseTeamActual - loseTeamExpectedScore)));
+        long winningTeamElo = winningTeam.getEloRating() + Math.round(K * (winTeamActual - winTeamExpectedScore));
+        long loosingTeamElo = winningTeam.getEloRating() + Math.round(K * (loseTeamActual - loseTeamExpectedScore));
 
         if(updateScore == true) {
             winningTeam.setEloRating(winningTeamElo);
@@ -149,7 +149,7 @@ public class MarchMadness2018 {
             throw new IllegalArgumentException("n: " + n + "is invalid must be between [1-364]");
         }
 
-        return simulationRepository.getTEAMS().values()
+        return SimulationRepository.getTEAMS().values()
                 .stream()
                 .sorted(Comparator.comparingLong(Team::getEloRating).reversed())
                 .limit(n)
