@@ -2,11 +2,11 @@
 
 ### Description 
 
-This project uses historical results of Men's College Basketball games from the [Google Cloud & NCAA® ML Competition](https://www.kaggle.com/c/mens-machine-learning-competition-2018) in order to predict the results of the 2018 Mens March Madness College Basketball Turnament.
+This project uses historical results of Men's College Basketball games from the [```Google Cloud & NCAA® ML Competition```](https://www.kaggle.com/c/mens-machine-learning-competition-2018) in order to predict the results of the 2018 Mens March Madness College Basketball Turnament.
 
 ### Implementation
 
-The project was implemented in java and uses gradle for build and execution. Regular Season Games are simulated and Teams are ranked using [ELO Rating System](https://en.wikipedia.org/wiki/Elo_rating_system) and updated after every game.  
+The project was implemented in java and uses gradle for build and execution. Regular Season Games are simulated and Teams are ranked using [```ELO Rating System```](https://en.wikipedia.org/wiki/Elo_rating_system) and updated after every game.  
 
 ### Getting Started 
 `These directions have only been tested on Linux Mac OS. Users may need to seek other options to install gradle. `
