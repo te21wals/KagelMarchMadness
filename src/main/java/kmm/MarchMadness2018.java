@@ -85,7 +85,7 @@ public class MarchMadness2018 {
         double winTeamActual = 1.0;
         double loseTeamActual = 0.0;
 
-        //K is the K-factor into considering the new rating was 32 changing to 20
+        //K is the K-factor was 32 changing to 20 better 2017 results.
         double K = 20.0;
 
         long winningTeamElo = winningTeam.getEloRating() + Math.round(K * (winTeamActual - winTeamExpectedScore));
@@ -165,8 +165,7 @@ public class MarchMadness2018 {
         marchMadness2018.readInResultsFile(marchMadness2018.resultsPath);
 
         SimulationResult simulationResult = marchMadness2018.simulateGamesOnQueue(true,1,
-                marchMadness2018.readInResultsFile(marchMadness2018.resultsPath)
-                        .stream().collect(Collectors.toList()));
+                marchMadness2018.readInResultsFile(marchMadness2018.resultsPath).stream().collect(Collectors.toList()));
         LOGGER.info(simulationResult.toShortString());
 
         int n =364;
