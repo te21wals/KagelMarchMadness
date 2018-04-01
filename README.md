@@ -9,7 +9,6 @@ This project uses historical results of Men's College Basketball games from the 
 The project was implemented in java and uses gradle for build and execution. Regular Season Games are simulated and Teams are ranked using [`ELO Rating System`](https://en.wikipedia.org/wiki/Elo_rating_system) and updated after every game.  
 
 ### Getting Started 
-* Download [`HomeBrew`](https://brew.sh/) by following directions on website
 * Run `git clone https://github.com/te21wals/KagelMarchMadness.git` from the desired project parent directory to clone the repository
 * From the project directory run `./gradle idea` to set up the `.idea/` folder
 * From the project directory run `./gradle install` to build the gradle wrapper for KagelMarchMadness project
