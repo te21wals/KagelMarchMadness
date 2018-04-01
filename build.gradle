@@ -14,6 +14,11 @@ docker {
     dockerfile file('Dockerfile') // default value not needed here
 }
 
+task dockerRun(type:Exec) {
+    dependsOn tasks.docker
+    commandLine 'docker', 'run', '-i', "${docker.name}"
+}
+
 jar {
     manifest {
         attributes 'Main-Class': 'kmm.MarchMadness2018'

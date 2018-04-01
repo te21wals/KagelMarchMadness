@@ -10,12 +10,19 @@ The project was implemented in java and uses gradle for build and execution. Reg
 
 ### Getting Started 
 * Run `git clone https://github.com/te21wals/KagelMarchMadness.git` from the desired project parent directory to clone the repository
-* From the project directory run `./gradle idea` to set up the `.idea/` folder
-* From the project directory run `./gradle install` to build the gradle wrapper for KagelMarchMadness project
-* From the project directory run `./gradle build` to build the project and create `build/`
-* From the project directory run `./gradle clean` to clean the project and delete `build/`
-* From the project directory run `./gradle run` to run the `kmm.MarchMadness2018.java`
 
+#### Gradle Tasks
+* From the project directory run `./gradlew idea` to set up the `.idea/` directory
+* From the project directory run `./gradlew build` to build the project and create `build/`
+* From the project directory run `./gradlew clean` to clean the project and delete `build/`
+* From the project directory run `./gradlew run` to run the `kmm.MarchMadness2018.java`
+
+#### Docker Tasks 
+``` Docker must be installed for these commands to work ```
+* From the project directory run `./gradlew dockerPrepare` to set up the `build/docker` directory 
+* From the project directory run `./gradlew dockerClean` to delete `build/docker` directory 
+* From the project directory run `./gradlew docker` to build the docker image `hub.docker.com/te21wals/kmm:SNAPSHOT`
+* From the project directory run `./gradlew dockeRun` to run the `hub.docker.com/te21wals/kmm:SNAPSHOT` image inside of a local docker container
 
 ### Results 
 `2017 - 99th Percentile on ESPN March Madness`
