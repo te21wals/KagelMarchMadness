@@ -1,4 +1,7 @@
-# Kagel March Madness 2018  
+# Kagel March Madness 2018
+
+![Docker Pulls](https://img.shields.io/docker/pulls/mashape/kong.svg)
+![Github All Releases](https://img.shields.io/github/downloads/atom/atom/total.svg)
 
 ### Description 
 
