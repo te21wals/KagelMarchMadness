@@ -1,8 +1,5 @@
 # Kagel March Madness 2018
 
-![Docker Pulls](https://img.shields.io/docker/pulls/mashape/kong.svg)
-![Github All Releases](https://img.shields.io/github/downloads/atom/atom/total.svg)
-
 ### Description 
 
 This project uses historical results of Men's College Basketball games from the [`Google Cloud & NCAA® ML Competition`](https://www.kaggle.com/c/mens-machine-learning-competition-2018) in order to predict the results of the 2018 Mens March Madness College Basketball Turnament.
