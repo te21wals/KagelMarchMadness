@@ -3,20 +3,20 @@ package kmm.service;
 import kmm.model.GameOutcome;
 import kmm.model.SimulationResult;
 import kmm.model.Team;
-import kmm.repository.TeamIDRepository;
+import kmm.repository.TeamRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class SimulationService {
     private static final double denominatorConst = 400.0;
-    private static final double k = 20;
+    private static final double k = 32;
     private final Set<GameOutcome> gameOutcomes;
-    private final TeamIDRepository teamIDRepository;
+    private final TeamRepository teamRepository;
 
-    SimulationService(Set<GameOutcome> gameOutcomes, TeamIDRepository teamIDRepository) {
+    SimulationService(Set<GameOutcome> gameOutcomes, TeamRepository teamRepository) {
         this.gameOutcomes = gameOutcomes;
-        this.teamIDRepository = teamIDRepository;
+        this.teamRepository = teamRepository;
     }
 
     public SimulationResult simulateGamesOnQueue(final boolean updateScore,
@@ -87,8 +87,8 @@ public class SimulationService {
         if (updateScore) {
             winningTeam.setEloRating(winningTeamElo);
             loosingTeam.setEloRating(loosingTeamElo);
-            teamIDRepository.upsert(winningTeam);
-            teamIDRepository.upsert(loosingTeam);
+            teamRepository.upsert(winningTeam);
+            teamRepository.upsert(loosingTeam);
         }
     }
 
@@ -98,7 +98,7 @@ public class SimulationService {
             throw new IllegalArgumentException("n: " + n + "is invalid must be between [1-364]");
         }
 
-        return teamIDRepository.getTeams().values()
+        return teamRepository.getTeams().values()
                 .stream()
                 .sorted(Comparator.comparingLong(Team::getEloRating).reversed())
                 .limit(n)

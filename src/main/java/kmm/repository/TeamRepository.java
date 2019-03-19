@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-public class TeamIDRepository {
+public class TeamRepository {
 
     private final Map<Integer, Team> teams;
 
-    public TeamIDRepository(final Map<Integer, Team> teams) {
+    public TeamRepository(final Map<Integer, Team> teams) {
         this.teams = teams;
     }
 

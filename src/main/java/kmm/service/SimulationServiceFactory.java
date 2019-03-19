@@ -2,13 +2,13 @@ package kmm.service;
 
 import kmm.model.GameOutcome;
 import kmm.model.Team;
-import kmm.repository.TeamIDRepository;
+import kmm.repository.TeamRepository;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class SimulationServiceBuilder {
+public class SimulationServiceFactory {
     private static final String TEAM_PATH = "input/Teams.csv";
     private static final String RESULTS_PATH = "input/2018RegularSeasonData.csv";
 
@@ -58,7 +58,7 @@ public class SimulationServiceBuilder {
     public static SimulationService buildSimulationService() {
         final Map<Integer, Team> idTeamMap = readInTeamFile();
         return new SimulationService(loadSeasonGamesFromFile(idTeamMap),
-                new TeamIDRepository(idTeamMap)
+                new TeamRepository(idTeamMap)
         );
     }
 }

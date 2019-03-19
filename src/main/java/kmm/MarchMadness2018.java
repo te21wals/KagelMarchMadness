@@ -2,7 +2,7 @@ package kmm;
 
 import kmm.model.SimulationResult;
 import kmm.service.SimulationService;
-import kmm.service.SimulationServiceBuilder;
+import kmm.service.SimulationServiceFactory;
 
 import java.util.logging.Logger;
 
@@ -11,7 +11,7 @@ public class MarchMadness2018 {
     private final SimulationService simulationService;
 
     private MarchMadness2018() {
-        simulationService = SimulationServiceBuilder.buildSimulationService();
+        simulationService = SimulationServiceFactory.buildSimulationService();
     }
 
 
