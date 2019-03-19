@@ -1,4 +1,4 @@
-package kmm.objects;
+package kmm.model;
 
 
 import java.util.Objects;
@@ -7,11 +7,11 @@ import java.util.Objects;
  * @author kr06pern
  * @author te21wals
  */
-public class Game {
+public class GameOutcome {
     private Team winner;
     private Team looser;
 
-    public Game(Team wTeam, Team lTeam) {
+    public GameOutcome(Team wTeam, Team lTeam) {
         this.winner = wTeam;
         this.looser = lTeam;
     }
@@ -26,7 +26,7 @@ public class Game {
 
     @Override
     public String toString() {
-        return "\n\t\tGame{" +"\n" +
+        return "\n\t\tGameOutcome{" +"\n" +
                 "\t\t\twinner  " + winner.toShortString()+"\n" +
                 "\t\t\tlooser  " + looser.toShortString() +"\n" +
                 "\t\t}";
@@ -37,9 +37,9 @@ public class Game {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Game game = (Game) o;
-        return Objects.equals(winner, game.winner) &&
-                Objects.equals(looser, game.looser);
+        GameOutcome gameOutcome = (GameOutcome) o;
+        return Objects.equals(winner, gameOutcome.winner) &&
+                Objects.equals(looser, gameOutcome.looser);
     }
 
     @Override
