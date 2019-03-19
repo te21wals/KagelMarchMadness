@@ -1,4 +1,4 @@
-package kmm.objects;
+package kmm.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,12 +7,12 @@ public class SimulationResult {
     private int correct;
     private int incorrect;
 
-    List<Game> successes;
-    List<Game> failures;
+    private List<GameOutcome> successes;
+    private List<GameOutcome> failures;
 
-    public SimulationResult(){
+    public SimulationResult() {
         this.correct = 0;
-        this.incorrect= 0;
+        this.incorrect = 0;
         this.successes = new ArrayList<>();
         this.failures = new ArrayList<>();
     }
@@ -32,29 +32,13 @@ public class SimulationResult {
     public void setIncorrect(int incorrect) {
         this.incorrect = incorrect;
     }
-    
-    public List<Game> getSuccesses() {
-        return successes;
+
+    public void addSuccess(GameOutcome gameOutcome) {
+        successes.add(gameOutcome);
     }
 
-    public void addSuccesses(List<Game> successes) {
-        this.successes.addAll(successes);
-    }
-
-    public List<Game> getFailures() {
-        return failures;
-    }
-
-    public void setFailures(List<Game> failures) {
-        this.failures.addAll(failures);
-    }
-
-    public void addSuccess(Game game){
-        successes.add(game);
-    }
-
-    public void addFailure(Game game){
-        failures.add(game);
+    public void addFailure(GameOutcome gameOutcome) {
+        failures.add(gameOutcome);
     }
 
     @Override
@@ -63,7 +47,7 @@ public class SimulationResult {
                 "\n\tcorrect=" + correct +
                 "\n\tincorrect=" + incorrect +
                 "\n\tsuccesses=" + successes +
-                "\n\tfailures=" + failures  +
+                "\n\tfailures=" + failures +
                 "\n}";
     }
 
