@@ -6,15 +6,18 @@ import kmm.model.Team;
 import kmm.repository.TeamRepository;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class SimulationService {
-    private static final double denominatorConst = 400.0;
+    private static final Logger LOGGER = Logger.getLogger(SimulationService.class.getName());
+    private static final double denominatorConst = 400;
     private static final double k = 32;
     private final Set<GameOutcome> gameOutcomes;
     private final TeamRepository teamRepository;
 
-    SimulationService(Set<GameOutcome> gameOutcomes, TeamRepository teamRepository) {
+    SimulationService(final Set<GameOutcome> gameOutcomes,
+                      final TeamRepository teamRepository) {
         this.gameOutcomes = gameOutcomes;
         this.teamRepository = teamRepository;
     }
@@ -27,11 +30,11 @@ public class SimulationService {
         int simulationCountDown = totalNumberOfSimulations;
         do {
             // for each simulation re-add all the gameOutcomes for that season
-            final Queue<GameOutcome> simulationGameOutcomes = new LinkedList<>();
-            simulationGameOutcomes.addAll(gameOutcomes);
+            final Queue<GameOutcome> simulationGameOutcomes = new LinkedList<>(gameOutcomes);
             while (!simulationGameOutcomes.isEmpty()) {
                 final GameOutcome result = simulationGameOutcomes.remove();
-                final GameOutcome eloPrediction = getPredictedGameOutcome(result);
+                final GameOutcome eloPrediction = getPredictedGameOutcomeByEloRanking(result);
+
                 if (result.equals(eloPrediction)) {
                     simulationResult.setCorrect(simulationResult.getCorrect() + 1);
                     simulationResult.addSuccess(eloPrediction);
@@ -54,7 +57,7 @@ public class SimulationService {
             - the winningTeam having the higher elo prior to game.
             - the loosingTeam having the lowerElo prior to game.
      */
-    private GameOutcome getPredictedGameOutcome(final GameOutcome gameOutcome) {
+    private GameOutcome getPredictedGameOutcomeByEloRanking(final GameOutcome gameOutcome) {
         final Team higherElo = gameOutcome.getWinningTeam().getEloRating() >= gameOutcome.getLoosingTeam().getEloRating()
                 ? gameOutcome.getWinningTeam() : gameOutcome.getLoosingTeam();
 
@@ -68,7 +71,6 @@ public class SimulationService {
                               final boolean updateScore) {
         Team winningTeam = gameOutcome.getWinningTeam();
         Team loosingTeam = gameOutcome.getLoosingTeam();
-
 
         double winScoreTeam = Math.pow(10.0, winningTeam.getEloRating() / denominatorConst);
         double loseScoreTeam = Math.pow(10.0, loosingTeam.getEloRating() / denominatorConst);
@@ -84,24 +86,54 @@ public class SimulationService {
         long loosingTeamElo = winningTeam.getEloRating() +
                 Math.round(k * (loseTeamActual - loseTeamExpectedScore));
 
+        LOGGER.info(winningTeam.getName().toUpperCase() + " has a " + winTeamExpectedScore
+                + " probablility of winning");
+        LOGGER.info(loosingTeam.getName().toUpperCase() + " has a "
+                + loseTeamExpectedScore + " probablility of winning");
+
         if (updateScore) {
             winningTeam.setEloRating(winningTeamElo);
+            winningTeam.addScore(winningTeamElo);
+
             loosingTeam.setEloRating(loosingTeamElo);
+            loosingTeam.addScore(loosingTeamElo);
+
             teamRepository.upsert(winningTeam);
             teamRepository.upsert(loosingTeam);
         }
+
+        LOGGER.info(winningTeam.getName() + " has a avg points score of " + winningTeam.getAverageScore());
+        LOGGER.info(winningTeam.getName() + " has a an elo rating of " + winningTeam.getEloRating());
+        LOGGER.info(loosingTeam.getName() + " has a avg points score of " + loosingTeam.getAverageScore());
+        LOGGER.info(loosingTeam.getName() + " has a an elo rating of" + winningTeam.getEloRating());
     }
 
     // Not used but leaving in for debugging purposes
-    public List<Team> getTopTeams(int n) {
-        if (n < 0 || n > 365) {
-            throw new IllegalArgumentException("n: " + n + "is invalid must be between [1-364]");
+    public List<Team> getTopTeamsByELORatings(int limit) {
+        if (limit < 0 || limit > 367) {
+            throw new IllegalArgumentException("n: " + limit + "is invalid must be between [1-364]");
         }
 
-        return teamRepository.getTeams().values()
+        return teamRepository
+                .getTeams()
+                .values()
                 .stream()
                 .sorted(Comparator.comparingLong(Team::getEloRating).reversed())
-                .limit(n)
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
+
+    // Not used but leaving in for debugging purposes
+    public List<Team> getTopTeamsByAverageELO(int limit) {
+        if (limit < 0 || limit > 367) {
+            throw new IllegalArgumentException("n: " + limit + "is invalid must be between [1-364]");
+        }
+        return teamRepository
+                .getTeams()
+                .values()
+                .stream()
+                .sorted(Comparator.comparingDouble(Team::getAverageScore).reversed())
+                .limit(limit)
                 .collect(Collectors.toList());
     }
 }

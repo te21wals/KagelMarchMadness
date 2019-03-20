@@ -10,7 +10,7 @@ import java.util.*;
 
 public class SimulationServiceFactory {
     private static final String TEAM_PATH = "input/Teams.csv";
-    private static final String RESULTS_PATH = "input/2018RegularSeasonData.csv";
+    private static final String RESULTS_PATH = "input/2019RegularSeasonResults.csv";
 
     private static Set<GameOutcome> loadSeasonGamesFromFile(final Map<Integer, Team> integerTeamMap) {
         Set<GameOutcome> gameOutcomes = new HashSet<>();
