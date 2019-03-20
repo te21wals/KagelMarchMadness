@@ -1,5 +1,8 @@
 # Kagel March Madness 2018
 
+### 2019 bracket 
+![alt text](2019_bracket.pdf)
+
 ### Description 
 
 This project uses historical results of Men's College Basketball gameOutcomes from the [`Google Cloud & NCAA® ML Competition`](https://www.kaggle.com/c/mens-machine-learning-competition-2018) in order to predict the results of the 2018 Mens March Madness College Basketball Turnament.

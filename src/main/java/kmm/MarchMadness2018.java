@@ -36,11 +36,11 @@ public class MarchMadness2018 {
                 .simulationService
                 .getTopTeamsByAverageELO(numberOfTeamsToPrint);
 
-        for (int i = 1; i <= topTeamsByELO.size(); i++) {
-            LOGGER.info("Rank(elo): " + i + "\t" +
-                    topTeamsByELO.get(i - 1)
-            );
-        }
+//        for (int i = 1; i <= topTeamsByELO.size(); i++) {
+//            LOGGER.info("Rank(elo): " + i + "\t" +
+//                    topTeamsByELO.get(i - 1)
+//            );
+//        }
 
         for (int i = 1; i <= topTeamsByAverageELO.size(); i++) {
             LOGGER.info("Rank(avg): " + i + "\t" +
