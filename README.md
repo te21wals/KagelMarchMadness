@@ -1,7 +1,7 @@
 # Kagel March Madness 2018
 
 ### 2019 bracket 
-![alt text](2019_bracket.pdf)
+![2019 bracke](2019_bracket.jpg)
 
 ### Description 
 
