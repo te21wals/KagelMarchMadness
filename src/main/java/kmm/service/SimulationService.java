@@ -86,10 +86,11 @@ public class SimulationService {
         long loosingTeamElo = winningTeam.getEloRating() +
                 Math.round(k * (loseTeamActual - loseTeamExpectedScore));
 
-        LOGGER.info(winningTeam.getName().toUpperCase() + " has a " + winTeamExpectedScore
-                + " probablility of winning");
-        LOGGER.info(loosingTeam.getName().toUpperCase() + " has a "
-                + loseTeamExpectedScore + " probablility of winning");
+
+//        LOGGER.info(winningTeam.getName().toUpperCase() + " has a " + winTeamExpectedScore
+//                + " probablility of winning");
+//        LOGGER.info(loosingTeam.getName().toUpperCase() + " has a "
+//                + loseTeamExpectedScore + " probablility of winning");
 
         if (updateScore) {
             winningTeam.setEloRating(winningTeamElo);
@@ -101,11 +102,11 @@ public class SimulationService {
             teamRepository.upsert(winningTeam);
             teamRepository.upsert(loosingTeam);
         }
-
-        LOGGER.info(winningTeam.getName() + " has a avg points score of " + winningTeam.getAverageScore());
-        LOGGER.info(winningTeam.getName() + " has a an elo rating of " + winningTeam.getEloRating());
-        LOGGER.info(loosingTeam.getName() + " has a avg points score of " + loosingTeam.getAverageScore());
-        LOGGER.info(loosingTeam.getName() + " has a an elo rating of" + winningTeam.getEloRating());
+//
+//        LOGGER.info(winningTeam.getName() + " has a avg points score of " + winningTeam.getAverageScore());
+//        LOGGER.info(winningTeam.getName() + " has a an elo rating of " + winningTeam.getEloRating());
+//        LOGGER.info(loosingTeam.getName() + " has a avg points score of " + loosingTeam.getAverageScore());
+//        LOGGER.info(loosingTeam.getName() + " has a an elo rating of" + winningTeam.getEloRating());
     }
 
     // Not used but leaving in for debugging purposes

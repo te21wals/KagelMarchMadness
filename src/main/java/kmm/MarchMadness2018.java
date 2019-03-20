@@ -20,7 +20,8 @@ public class MarchMadness2018 {
     public static void main(String[] args) {
         final MarchMadness2018 marchMadness2018 = new MarchMadness2018();
 
-        SimulationResult simulationResult = marchMadness2018.simulationService
+        SimulationResult simulationResult = marchMadness2018
+                .simulationService
                 .simulateGamesOnQueue(true, 1);
 
         LOGGER.info(simulationResult.toShortString());
